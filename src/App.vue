@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-testid="app">
     <h1 class="title">
       {{ name }}
     </h1>
@@ -10,11 +10,11 @@
 export default {
   data() {
     return {
-      name: "tarou"
-    };
+      name: 'tarou'
+    }
   },
   methods: {}
-};
+}
 </script>
 
 <style lang="less" scoped>
