@@ -6,12 +6,12 @@
         <button @click="exec">exec</button>
       </div>
       <div>
-        <button @click="push">push</button>
+        <button @click="push('aaa')">push</button>
         <input
           type="text"
-          v-model="pushValue"
           placeholder="enter value to push stack "
           maxlength="8"
+          v-model="pushValue"
         />
         <button @click="pop">pop</button>
         <select v-model="popTo">
@@ -20,10 +20,6 @@
           }}</option>
         </select>
       </div>
-      <button @click="up">countUp</button>
-      <button @click="down">countDown</button>
-      <div>{{ count }}</div>
-      <div>{{ getCountWithPadding }}</div>
     </div>
     <div class="viewer">
       <div class="registers">
@@ -40,15 +36,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 
 import Stack from './components/Stack.vue'
 import Register from './components/Register.vue'
-
-const registers = ['rax', 'rdi', 'rbp', 'rsp'].reduce((result, current) => {
-  result[current] = ''
-  return result
-}, {})
 
 // stmt = operand dist, src || push|pop src
 // src = number|RAX, RDI
@@ -61,32 +52,22 @@ export default {
   data() {
     return {
       code: '',
-      stack: ['100', '200'],
       pushValue: '',
-      popTo: 'rax',
-      registers
+      popTo: 'rax'
     }
   },
   computed: {
-    ...mapGetters(['getCountWithPadding']),
-    ...mapState(['count'])
+    ...mapState(['stack', 'registers'])
   },
   methods: {
     exec() {
       //const lines = this.code.split('\n')
     },
     push() {
-      this.stack.push(this.pushValue)
+      this.$store.commit('push', this.pushValue)
     },
     pop() {
-      this.registers[this.popTo] = this.stack.pop()
-    },
-    up() {
-      //this.$store.commit('increment')
-      this.$store.dispatch('incrementAsync')
-    },
-    down() {
-      this.$store.commit('decrement')
+      this.$store.commit('pop', this.popTo)
     }
   }
 }

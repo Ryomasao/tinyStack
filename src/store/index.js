@@ -3,20 +3,22 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const registers = ['rax', 'rdi', 'rbp', 'rsp'].reduce((result, current) => {
+  result[current] = ''
+  return result
+}, {})
+
 export default new Vuex.Store({
   state: {
-    count: 0
-  },
-  actions: {
-    incrementAsync(context) {
-      context.commit('increment')
-    }
+    stack: [],
+    registers
   },
   mutations: {
-    increment: state => state.count++,
-    decrement: state => state.count--
+    push: ({ stack }, value) => stack.push(value),
+    pop: ({ stack, registers }, name) => {
+      registers[name] = stack.pop()
+    }
   },
-  getters: {
-    getCountWithPadding: state => state.count.toString().padStart(8, '0')
-  }
+  actions: {},
+  getters: {}
 })
