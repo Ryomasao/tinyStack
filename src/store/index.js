@@ -11,13 +11,16 @@ const registers = ['rax', 'rdi', 'rbp', 'rsp'].reduce((result, current) => {
 export default new Vuex.Store({
   state: {
     stack: [],
+    dist: 'rax',
     registers
   },
   mutations: {
     push: ({ stack }, value) => stack.push(value),
-    pop: ({ stack, registers }, name) => {
-      registers[name] = stack.pop()
-    }
+    pop: ({ stack, registers, dist }) => {
+      registers[dist] = stack.pop()
+    },
+    mov: ({ registers, dist }, payload) => (registers[dist] = payload),
+    changeDist: (state, payload) => (state.dist = payload)
   },
   actions: {},
   getters: {}

@@ -6,15 +6,16 @@
         <button @click="exec">exec</button>
       </div>
       <div>
-        <button @click="push('aaa')">push</button>
         <input
           type="text"
-          placeholder="enter value to push stack "
+          placeholder="source value"
           maxlength="8"
           v-model="pushValue"
         />
+        <button @click="push">push</button>
         <button @click="pop">pop</button>
-        <select v-model="popTo">
+        <button @click="mov">mov</button>
+        <select @change="changeDist" :value="dist">
           <option v-for="(value, key) in registers" :key="key">{{
             key
           }}</option>
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 import Stack from './components/Stack.vue'
 import Register from './components/Register.vue'
@@ -52,12 +53,11 @@ export default {
   data() {
     return {
       code: '',
-      pushValue: '',
-      popTo: 'rax'
+      pushValue: ''
     }
   },
   computed: {
-    ...mapState(['stack', 'registers'])
+    ...mapState(['stack', 'registers', 'dist'])
   },
   methods: {
     exec() {
@@ -67,7 +67,13 @@ export default {
       this.$store.commit('push', this.pushValue)
     },
     pop() {
-      this.$store.commit('pop', this.popTo)
+      this.$store.commit('pop')
+    },
+    changeDist(e) {
+      this.$store.commit('changeDist', e.target.value)
+    },
+    mov() {
+      this.$store.commit('mov', this.pushValue)
     }
   }
 }
