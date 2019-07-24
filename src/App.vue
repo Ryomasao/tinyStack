@@ -20,6 +20,10 @@
           }}</option>
         </select>
       </div>
+      <button @click="up">countUp</button>
+      <button @click="down">countDown</button>
+      <div>{{ count }}</div>
+      <div>{{ getCountWithPadding }}</div>
     </div>
     <div class="viewer">
       <div class="registers">
@@ -36,6 +40,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 import Stack from './components/Stack.vue'
 import Register from './components/Register.vue'
 
@@ -61,6 +67,10 @@ export default {
       registers
     }
   },
+  computed: {
+    ...mapGetters(['getCountWithPadding']),
+    ...mapState(['count'])
+  },
   methods: {
     exec() {
       //const lines = this.code.split('\n')
@@ -70,6 +80,13 @@ export default {
     },
     pop() {
       this.registers[this.popTo] = this.stack.pop()
+    },
+    up() {
+      //this.$store.commit('increment')
+      this.$store.dispatch('incrementAsync')
+    },
+    down() {
+      this.$store.commit('decrement')
     }
   }
 }
