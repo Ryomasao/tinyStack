@@ -1,76 +1,51 @@
 <template>
   <div class="main" data-testid="app">
     <div class="controller">
-      <!--
-      <div>
-        <textarea v-model="code" />
-        <button @click="exec">exec</button>
-      </div>
-      -->
-      <div>
-        <Mnemonic name="push" :registers="registers" @exec="push" />
-        <Mnemonic name="pop" :registers="registers" @exec="pop" />
-        <Mnemonic name="mov" :registers="registers" @exec="mov" />
-      </div>
+      <Controller
+        :registers="registers"
+        @push="value => push(value)"
+        @pop="value => pop(value)"
+        @mov="value => mov(value)"
+        @add="value => add(value)"
+      />
     </div>
     <div class="viewer">
-      <div class="registers">
-        <Register
-          v-for="(value, key) in registers"
-          :key="key"
-          :name="key"
-          :value="value"
-        />
-      </div>
-      <Stack :items="stack" />
+      <Viewer :stack="stack" :registers="registers" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
-import Stack from './components/Stack.vue'
-import Register from './components/Register.vue'
-import SelectRegister from './components/SelectRegister.vue'
-import Mnemonic from './components/Mnemonic.vue'
+import Controller from './components/Controller.vue'
+import Viewer from './components/Viewer.vue'
 
 // stmt = operand dist, src || push|pop src
 // src = number|RAX, RDI
 
 export default {
   components: {
-    Stack,
-    Register,
-    SelectRegister,
-    Mnemonic
+    Controller,
+    Viewer
   },
-  data() {
-    return {
-      code: '',
-      pushValue: ''
-    }
-  },
-  computed: {
-    ...mapState(['stack', 'registers', 'dist'])
-  },
-  methods: {
-    exec() {
-      //const lines = this.code.split('\n')
-    },
-    push(value) {
-      this.$store.dispatch('push', value)
-    },
-    pop(value) {
-      this.$store.dispatch('pop', value)
-    },
-    mov(value) {
-      this.$store.dispatch('mov', value)
-    },
-    add() {}
-  }
+  computed: mapState(['stack', 'registers']),
+  methods: mapActions(['push', 'pop', 'mov', 'add'])
 }
 </script>
+
+<style lang="less">
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  //background: #000000;
+
+  // reset defaut style
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+</style>
 
 <style lang="less" scoped>
 .main {
