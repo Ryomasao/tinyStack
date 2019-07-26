@@ -37,7 +37,9 @@ export default {
 <style lang="less">
 body {
   font-family: 'IBM Plex Sans', sans-serif;
-  //background: #000000;
+  background: #222222;
+  //color: #0dff92;
+  color: #aaaaaa;
 
   // reset defaut style
   p {
@@ -55,6 +57,7 @@ body {
 
 .controller {
   width: 50%;
+  font-size: 1.2rem;
 }
 
 .viewer {

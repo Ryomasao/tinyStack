@@ -1,24 +1,28 @@
 <template>
   <div>
     <div v-if="hasSrc">
-      <label>
-        <input
-          type="radio"
-          :name="`src-type-${name}`"
+      <div class="radio-wrapper">
+        <RadioButton
+          :group-name="`mnemonic-${name}`"
+          :id="`mnemonic-${name}-data`"
           value="data"
-          v-model="form.srcType"
-        />
-        data
-      </label>
-      <label>
-        <input
-          type="radio"
-          :name="`src-type-${name}`"
+          :checkedValue="form.srcType"
+          @change="e => (form.srcType = e.target.value)"
+        >
+          DATA
+        </RadioButton>
+      </div>
+      <div class="radio-wrapper">
+        <RadioButton
+          :group-name="`mnemonic-${name}`"
+          :id="`mnemonic-${name}-register`"
           value="register"
-          v-model="form.srcType"
-        />
-        regsiter
-      </label>
+          :checkedValue="form.srcType"
+          @change="e => (form.srcType = e.target.value)"
+        >
+          REGISTER
+        </RadioButton>
+      </div>
       <div v-if="form.srcType === 'data'">
         <input
           type="text"
@@ -46,6 +50,7 @@
 
 <script>
 import SelectRegister from './SelectRegister.vue'
+import RadioButton from './RadioButton.vue'
 
 export default {
   name: 'Mnemonic',
@@ -62,7 +67,8 @@ export default {
     }
   },
   components: {
-    SelectRegister
+    SelectRegister,
+    RadioButton
   },
   computed: {
     // オペランドの名前から、Srcが必要かどうかを判断する
@@ -91,3 +97,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.radio-wrapper {
+  padding: 5px 0;
+}
+</style>
