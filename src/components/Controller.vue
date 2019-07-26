@@ -1,8 +1,13 @@
 <template>
   <div>
-    <Mnemonic name="push" :registers="registers" @exec="push" />
-    <Mnemonic name="pop" :registers="registers" @exec="pop" />
-    <Mnemonic name="mov" :registers="registers" @exec="mov" />
+    <Mnemonic
+      class="mnemonic"
+      name="push"
+      :registers="registers"
+      @exec="push"
+    />
+    <Mnemonic class="mnemonic" name="pop" :registers="registers" @exec="pop" />
+    <Mnemonic class="mnemonic" name="mov" :registers="registers" @exec="mov" />
   </div>
 </template>
 
@@ -33,3 +38,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.mnemonic {
+  margin-bottom: 10px;
+}
+</style>

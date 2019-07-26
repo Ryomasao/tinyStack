@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mnemonic">
     <div class="src" v-if="hasSrc">
       <div class="select-src">
         <div class="radio-wrapper">
@@ -45,7 +45,9 @@
         v-model="form.selectedDistRegister"
       />
     </div>
-    <button @click="onClick">{{ name }}</button>
+    <div class="exec">
+      <Button @click="onClick">{{ name }}</Button>
+    </div>
   </div>
 </template>
 
@@ -53,6 +55,7 @@
 import SelectRegister from './SelectRegister.vue'
 import RadioButton from './RadioButton.vue'
 import InputText from './InputText.vue'
+import Button from './Button.vue'
 
 export default {
   name: 'Mnemonic',
@@ -71,7 +74,8 @@ export default {
   components: {
     SelectRegister,
     RadioButton,
-    InputText
+    InputText,
+    Button
   },
   computed: {
     // オペランドの名前から、Srcが必要かどうかを判断する
@@ -102,6 +106,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.mnemonic {
+  display: flex;
+  align-items: center;
+}
+
 .src {
   display: flex;
   align-items: center;
@@ -116,5 +125,13 @@ export default {
 
 .radio-wrapper {
   padding: 5px 0;
+}
+
+.dist {
+  margin-left: 10px;
+}
+
+.exec {
+  margin-left: 10px;
 }
 </style>

@@ -26,12 +26,14 @@ export default {
 
 <style lang="less" scoped>
 .input {
-  padding: 1rem 2rem;
+  padding: 1rem;
+  font-size: 1.2rem;
   outline: 0;
   background: #222222;
   border: 5px solid #aaaaaa;
   -webkit-appearance: none;
-  font-size: 2rem;
   color: #aaaaaa;
+  // TODO 親で指定できたほうがいい
+  width: 200px;
 }
 </style>

@@ -52,7 +52,7 @@ body {
 <style lang="less" scoped>
 .main {
   padding: 10px;
-  display: flex;
+  //display: flex;
 }
 
 .controller {
