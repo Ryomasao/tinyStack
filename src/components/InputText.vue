@@ -1,22 +1,27 @@
 <template>
-  <select
-    class="input"
+  <input
+    type="text"
     @input="e => $emit('input', e.target.value)"
     :value="value"
-  >
-    <option v-for="(option, key) in options" :key="key">{{ key }}</option>
-  </select>
+    class="input"
+    :maxlength="maxlenght"
+    :placeholder="placeholder"
+  />
 </template>
 
 <script>
 export default {
-  name: 'SelectRegister',
+  name: 'Input',
   props: {
-    options: {
-      type: Object,
-      default: () => {}
-    },
     value: {
+      type: String,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    maxlength: {
       type: String,
       default: ''
     }

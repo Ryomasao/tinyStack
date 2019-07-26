@@ -47,6 +47,7 @@ export default {
   display: none;
 }
 
+// checkedステートをもって切り替えるほうがわかりやすい？
 input[type='radio']:checked + .circle-button {
   .circle {
     color: #0dff92;
@@ -56,6 +57,10 @@ input[type='radio']:checked + .circle-button {
   .inner-circle {
     color: #0dff92;
     background: #0dff92;
+  }
+
+  .title {
+    color: #0dff92;
   }
 }
 
@@ -94,6 +99,7 @@ input[type='radio']:checked + .circle-button {
 }
 
 .title {
+  transition: all 0.3s;
   margin-left: 5px;
 }
 </style>
