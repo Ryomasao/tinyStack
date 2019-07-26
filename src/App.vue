@@ -1,25 +1,16 @@
 <template>
   <div class="main" data-testid="app">
     <div class="controller">
-      <div class="row">
+      <!--
+      <div>
         <textarea v-model="code" />
         <button @click="exec">exec</button>
       </div>
+      -->
       <div>
-        <input
-          type="text"
-          placeholder="source value"
-          maxlength="8"
-          v-model="pushValue"
-        />
-        <button @click="push">push</button>
-        <button @click="pop">pop</button>
-        <button @click="mov">mov</button>
-        <select @change="changeDist" :value="dist">
-          <option v-for="(value, key) in registers" :key="key">{{
-            key
-          }}</option>
-        </select>
+        <Mnemonic name="push" :registers="registers" @exec="push" />
+        <Mnemonic name="pop" :registers="registers" @exec="pop" />
+        <Mnemonic name="mov" :registers="registers" @exec="mov" />
       </div>
     </div>
     <div class="viewer">
@@ -41,6 +32,8 @@ import { mapState } from 'vuex'
 
 import Stack from './components/Stack.vue'
 import Register from './components/Register.vue'
+import SelectRegister from './components/SelectRegister.vue'
+import Mnemonic from './components/Mnemonic.vue'
 
 // stmt = operand dist, src || push|pop src
 // src = number|RAX, RDI
@@ -48,7 +41,9 @@ import Register from './components/Register.vue'
 export default {
   components: {
     Stack,
-    Register
+    Register,
+    SelectRegister,
+    Mnemonic
   },
   data() {
     return {
@@ -63,18 +58,16 @@ export default {
     exec() {
       //const lines = this.code.split('\n')
     },
-    push() {
-      this.$store.commit('push', this.pushValue)
+    push(value) {
+      this.$store.dispatch('push', value)
     },
-    pop() {
-      this.$store.commit('pop')
+    pop(value) {
+      this.$store.dispatch('pop', value)
     },
-    changeDist(e) {
-      this.$store.commit('changeDist', e.target.value)
+    mov(value) {
+      this.$store.dispatch('mov', value)
     },
-    mov() {
-      this.$store.commit('mov', this.pushValue)
-    }
+    add() {}
   }
 }
 </script>
@@ -95,5 +88,6 @@ export default {
 
 .registers {
   display: flex;
+  flex-wrap: wrap;
 }
 </style>

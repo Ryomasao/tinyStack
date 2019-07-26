@@ -16,12 +16,43 @@ export default new Vuex.Store({
   },
   mutations: {
     push: ({ stack }, value) => stack.push(value),
-    pop: ({ stack, registers, dist }) => {
-      registers[dist] = stack.pop()
-    },
-    mov: ({ registers, dist }, payload) => (registers[dist] = payload),
-    changeDist: (state, payload) => (state.dist = payload)
+    pop: ({ stack, registers }, registerName) =>
+      (registers[registerName] = stack.pop()),
+    mov: ({ registers }, payload) => (registers[payload.dist] = payload.src)
   },
-  actions: {},
-  getters: {}
+  // コンポーネントからmutationに直接commitは発行できるみたい。ただ、非同期処理が入ると厄介なので
+  // component→actions→mutationsという流れにしとく
+  actions: {
+    push({ commit, getters }, value) {
+      // push 1 のパターン
+      if (value.srcType == 'data') {
+        commit('push', value.srcValue)
+        return
+      }
+      // push rax のパターン
+      commit('push', getters.getRegisterValue(value.registerName))
+    },
+    pop({ commit }, value) {
+      // pop rax のパターン
+      commit('pop', value.selectedDistRegister)
+    },
+    mov({ commit, getters }, value) {
+      // mov rax, 1 のパターン
+      if (value.srcType == 'data') {
+        commit('mov', {
+          src: value.srcValue,
+          dist: value.selectedDistRegister
+        })
+        return
+      }
+      // push rax, rdi のパターン
+      commit('mov', {
+        src: getters.getRegisterValue(value.selectedSrcRegister),
+        dist: value.selectedDistRegister
+      })
+    }
+  },
+  getters: {
+    getRegisterValue: state => registerName => state.registers[registerName]
+  }
 })
