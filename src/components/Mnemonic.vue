@@ -1,24 +1,23 @@
 <template>
   <div>
     <div v-if="hasSrc">
-      <h4>select source</h4>
       <label>
-        data
         <input
           type="radio"
           :name="`src-type-${name}`"
           value="data"
           v-model="form.srcType"
         />
+        data
       </label>
       <label>
-        regsiter
         <input
           type="radio"
           :name="`src-type-${name}`"
           value="register"
           v-model="form.srcType"
         />
+        regsiter
       </label>
       <div v-if="form.srcType === 'data'">
         <input
