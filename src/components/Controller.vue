@@ -8,6 +8,7 @@
     />
     <Mnemonic class="mnemonic" name="pop" :registers="registers" @exec="pop" />
     <Mnemonic class="mnemonic" name="mov" :registers="registers" @exec="mov" />
+    <Mnemonic class="mnemonic" name="add" :registers="registers" @exec="add" />
   </div>
 </template>
 
@@ -34,7 +35,9 @@ export default {
     mov(value) {
       this.$emit('mov', value)
     },
-    add() {}
+    add(value) {
+      this.$emit('add', value)
+    }
   }
 }
 </script>

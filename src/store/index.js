@@ -18,7 +18,11 @@ export default new Vuex.Store({
     push: ({ stack }, value) => stack.push(value),
     pop: ({ stack, registers }, registerName) =>
       (registers[registerName] = stack.pop()),
-    mov: ({ registers }, payload) => (registers[payload.dist] = payload.src)
+    mov: ({ registers }, payload) => (registers[payload.dist] = payload.src),
+    add: ({ registers }, payload) => {
+      const result = +registers[payload.dist] + +payload.src
+      registers[payload.dist] = result.toString()
+    }
   },
   // コンポーネントからmutationに直接commitは発行できるみたい。ただ、非同期処理が入ると厄介なので
   // component→actions→mutationsという流れにしとく
@@ -47,6 +51,21 @@ export default new Vuex.Store({
       }
       // push rax, rdi のパターン
       commit('mov', {
+        src: getters.getRegisterValue(value.selectedSrcRegister),
+        dist: value.selectedDistRegister
+      })
+    },
+    add({ commit, getters }, value) {
+      // add rax 1 のパターン
+      if (value.srcType == 'data') {
+        commit('add', {
+          src: value.srcValue,
+          dist: value.selectedDistRegister
+        })
+        return
+      }
+      // add rax rdi のパターン
+      commit('add', {
         src: getters.getRegisterValue(value.selectedSrcRegister),
         dist: value.selectedDistRegister
       })

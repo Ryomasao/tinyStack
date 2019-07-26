@@ -80,11 +80,11 @@ export default {
   computed: {
     // オペランドの名前から、Srcが必要かどうかを判断する
     hasSrc() {
-      return ['mov', 'push'].includes(this.name)
+      return ['mov', 'push', 'add'].includes(this.name)
     },
     // オペランドの名前から、Distが必要かどうかを判断する
     hasDist() {
-      return ['mov', 'pop'].includes(this.name)
+      return ['mov', 'pop', 'add'].includes(this.name)
     }
   },
   data() {
